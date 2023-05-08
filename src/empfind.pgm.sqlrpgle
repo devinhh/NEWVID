@@ -1,25 +1,31 @@
 **FREE
-Ctl-Opt Main(EMPFIND);
+Ctl-Opt Main(EMPFIND) dftactgrp(*no) bnddir('MYAPP');
 
 dcl-ds employee_t extname('EMPLOYEE') qualified template;
 end-ds;
 
+dcl-pr getEmployee likeds(employee_t) extproc('GETEMPLOYEE');
+  employeeNumber char(6) const;
+end-pr;
+
+dcl-pr getEmpName char(40) extproc('GETEMPNAME');
+  employeeNumber char(6) const;
+end-pr;
+
 Dcl-Proc EMPFIND;
-   Dcl-Pi *N;
-      employeeNumber char(6);
-   End-Pi;
+  Dcl-Pi *N;
+    employeeNumber char(6);
+  End-Pi;
 
-   dcl-ds employee likeds(employee_t);
+  dcl-ds employee likeds(employee_t);
+  dcl-s empName char(40);
 
-   exec sql  
-   select firstnme, lastname, job
-   into :employee.FIRSTNME, :employee.LASTNAME, :employee.JOB
-   from employee
-   where empno = :employeeNumber;
+  employee = getEmployee(employeeNumber);
 
-   if (sqlstate = '00000');
-      dsply 'We have data';
-   else;
-      dsply 'No data found!';
-   endif;
+  dsply employee.firstnme;
+
+  empName = getEmpName(employeeNumber);
+
+  dsply empName;
+
 End-Proc;
