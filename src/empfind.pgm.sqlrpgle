@@ -1,16 +1,7 @@
 **FREE
 Ctl-Opt Main(EMPFIND) dftactgrp(*no) bnddir('MYAPP');
 
-dcl-ds employee_t extname('EMPLOYEE') qualified template;
-end-ds;
-
-dcl-pr getEmployee likeds(employee_t) extproc('GETEMPLOYEE');
-  employeeNumber char(6) const;
-end-pr;
-
-dcl-pr getEmpName char(40) extproc('GETEMPNAME');
-  employeeNumber char(6) const;
-end-pr;
+/copy 'headers/emp.rpgleinc'
 
 Dcl-Proc EMPFIND;
   Dcl-Pi *N;
